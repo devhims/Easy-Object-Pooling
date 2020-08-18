@@ -7,7 +7,7 @@ namespace Hims.Arsenal
 {
     public class EasyPool : MonoBehaviour
     {
-        [SerializeField] List<GameObject> prefabsToPool = new List<GameObject>();
+        [SerializeField] GameObject[] prefabsToPool;
         [SerializeField] bool randomise = false;
 
         //Singleton 
