@@ -18,7 +18,7 @@ Instantiating and Destroying objects in the scene during runtine is expensive in
 4. To retrive, Call `EasyPool.Instance.GetObj()` in any other scipt where you need to load objects. 
 5. To return, Call `EasyPool.Instance.ReturnObj(obj)` where obj is the object you no longer need. 
 
-<img src="Image/sample.png" width="300">
+<img src="Image/sample.png" width="500">
 
 That's it! 
 
