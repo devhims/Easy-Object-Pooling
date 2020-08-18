@@ -1,1 +1,1 @@
-# easy-object-pooling
+# Easy-Object-Pooling
