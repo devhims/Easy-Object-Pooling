@@ -9,12 +9,14 @@ namespace Hims.Arsenal
     {
         [SerializeField] GameObject[] prefabsToPool;
         [SerializeField] bool randomise = false;
-
-        //Singleton 
-        public static EasyPool Instance;
-
         Transform thisTransform;
-        List<GameObject> pooledObjects = new List<GameObject>();
+        int currentIndex;
+
+        // array to store pooled objects
+        GameObject[] pooledObjects;
+
+        // singleton 
+        public static EasyPool Instance;
 
         void Awake()
         {
@@ -26,49 +28,49 @@ namespace Hims.Arsenal
             Instance = this;
 
             thisTransform = transform;
+            pooledObjects = new GameObject[prefabsToPool.Length];
             AddObjectsToPool();
         }
 
+        // instantiate and add objects to pool
         void AddObjectsToPool()
         {
-            // Loop through all the prefabs selected by the user, instantiate and deactivate them
-            foreach (var prefab in prefabsToPool)
+            for (int i = 0; i < prefabsToPool.Length; i++)
             {
-                GameObject go = Instantiate(prefab);
+                GameObject go = Instantiate(prefabsToPool[i]);
                 go.SetActive(false);
                 go.transform.parent = thisTransform;
-                pooledObjects.Add(go);
+                pooledObjects[i] = go;
             }
         }
 
         public GameObject GetObj()
         {
             // when randomise is checked in the inspector, it'll pick a random index,
-            // check if the gameobject stored at that index is not null. If yes, return it and also remove it from the list
+            // check if the gameobject stored at that index is not null. If yes, return it.
             if (randomise)
             {
-                int randomIndex = Random.Range(0, pooledObjects.Count);
+                int randomIndex = Random.Range(0, pooledObjects.Length);
 
-                if (pooledObjects[randomIndex] != null)
+                if (!pooledObjects[randomIndex].activeSelf)
                 {
                     GameObject go = pooledObjects[randomIndex];
-                    pooledObjects.RemoveAt(randomIndex);
                     return go;
                 }
             }
 
-            // returns and remove the first inactive pooled object stored in the list
-            for (int i = 0; i < pooledObjects.Count; i++)
+            // returns the first inactive pooled object and moves the index down by 1.
+            for (int i = currentIndex; i < pooledObjects.Length; i++)
             {
                 if (!pooledObjects[i].activeSelf)
                 {
                     GameObject go = pooledObjects[i];
-                    pooledObjects.RemoveAt(i);
+                    ShiftIndexDown();
                     return go;
                 }
             }
 
-            Debug.Log("Objects in the pool are over!");
+            Debug.LogWarning("Pool is empty");
             return null;
         }
 
@@ -79,9 +81,12 @@ namespace Hims.Arsenal
                 obj.SetActive(false);
             if (obj.transform.parent != thisTransform)
                 obj.transform.parent = thisTransform;
+        }
 
-            // adds the gameobject back to the pooled objects list
-            pooledObjects.Add(obj);
+        // moves the current currentIndex in the pool down by 1
+        void ShiftIndexDown()
+        {
+            currentIndex = currentIndex < pooledObjects.Length - 1 ? currentIndex + 1 : 0;
         }
     }
 }
