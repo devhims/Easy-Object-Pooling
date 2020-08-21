@@ -156,7 +156,8 @@ MonoBehaviour:
   - {fileID: 2339221907976186917, guid: 0fda700ed0b6c4b9884151fff3584d4d, type: 3}
   - {fileID: 8154693770594273123, guid: 448edac1ab6b0472ab53ec5e9826e7a8, type: 3}
   - {fileID: 1466157486326761976, guid: 0df0fb832a418470e99125812f90b868, type: 3}
-  randomise: 0
+  poolSize: 25
+  randomise: 1
 --- !u!4 &549756238
 Transform:
   m_ObjectHideFlags: 0
