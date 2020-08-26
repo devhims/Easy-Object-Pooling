@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Hims.Arsenal;
 using UnityEngine;
 
 public class ExampleSpawn : MonoBehaviour
